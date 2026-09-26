@@ -93,7 +93,7 @@ if predict:
         st.success('Below the selected review threshold; continue routine monitoring.')
     st.caption('The linear score is not a calibrated probability. A high churn score does not prove a proposed intervention will work.')
 
-st.info('Churn Score Categories and Suggestions')
+st.body('Churn Score Categories and Suggestions')
 st.markdown("""
 | Logistic Churn Score | Category | Suggestion |
 |---|---|---|
@@ -101,16 +101,3 @@ st.markdown("""
 | 40% to under 70% | Medium | Check engagement; consider low-cost outreach |
 | 70% to 100% | High | Prioritise for human review |
 """)
-
-"""## Resources
-
-| Logistic Churn Score | Category | Suggestion |
-|---|---|---|
-| 0% to under 40% | Low | Routine monitoring |
-| 40% to under 70% | Medium | Check engagement; consider low-cost outreach |
-| 70% to 100% | High | Prioritise for human review |
-"""
-
-df
-
-pip install streamlit
