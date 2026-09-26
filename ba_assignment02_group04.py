@@ -92,7 +92,3 @@ if predict:
     else:
         st.success('Below the selected review threshold; continue routine monitoring.')
     st.caption('The linear score is not a calibrated probability. A high churn score does not prove a proposed intervention will work.')
-
-st.subheader('Holdout evaluation')
-st.dataframe(report.style.format({'ROC-AUC':'{:.3f}', 'PR-AUC':'{:.3f}', 'Accuracy at 0.5':'{:.3f}', 'MAE':'{:.3f}'}), hide_index=True)
-st.caption(f'{len(df):,} records; stratified 75/25 train-test split, random_state=42. Churn rate: {df.churned.mean():.1%}. Lower MAE is better; higher AUC metrics are better. Revalidate with a time-based split before operational deployment.')
