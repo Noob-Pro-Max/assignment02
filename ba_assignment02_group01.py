@@ -65,7 +65,7 @@ except Exception as exc:
     st.error(f'Could not prepare app: {exc}')
     st.stop()
 
-st.info('Use the profile controls to estimate churn risk. Churn=1 means the customer churned in the dataset.')
+st.info('Use the profile controls to estimate churn risk.')
 
 with st.sidebar:
     st.header('Customer profile')
@@ -93,7 +93,7 @@ if predict:
         st.success('Below the selected review threshold; continue routine monitoring.')
     st.caption('The linear score is not a calibrated probability. A high churn score does not prove a proposed intervention will work.')
 
-st.subheader('Churn Score Categories and Suggestions')
+st.subtleemphasis('Churn Score Categories and Suggestions')
 st.markdown("""
 | Logistic Churn Score | Category | Suggestion |
 |---|---|---|
