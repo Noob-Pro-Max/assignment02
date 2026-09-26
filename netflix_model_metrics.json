@@ -1,0 +1,9 @@
+{
+  "rows": 5000,
+  "churn_rate": 0.503,
+  "logistic_accuracy": 0.888,
+  "logistic_auc": 0.9650980904177834,
+  "linear_mae": 0.2625622669689139,
+  "linear_rmse": 0.32825819624767716,
+  "linear_r2": 0.5689685713375678
+}
