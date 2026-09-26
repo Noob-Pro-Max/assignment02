@@ -93,7 +93,7 @@ if predict:
         st.success('Below the selected review threshold; continue routine monitoring.')
     st.caption('The linear score is not a calibrated probability. A high churn score does not prove a proposed intervention will work.')
 
-st.subheader'Churn Score Categories and Suggestions')
+st.subheader('Churn Score Categories and Suggestions')
 st.markdown("""
 | Logistic Churn Score | Category | Suggestion |
 |---|---|---|
