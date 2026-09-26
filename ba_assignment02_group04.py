@@ -17,17 +17,16 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import roc_auc_score, accuracy_score, average_precision_score, brier_score_loss, mean_absolute_error
+from sklearn.metrics import roc_auc_score, accuracy_score, average_precision_score, mean_absolute_error
 
 st.set_page_config(page_title='Churn decision support', page_icon='📺', layout='wide')
-st.title('Customer churn decision support')
-st.caption('Demonstration based on the supplied Netflix-labelled dataset; not a Netflix-operated tool or a validated operational model.')
+st.title('Customer Churn Decision Support')
 
 @st.cache_data
 def load_data():
     data = pd.read_csv('netflix_customer_churn.csv')
     if data['churned'].isna().any() or not set(data['churned'].unique()).issubset({0, 1}):
-        raise ValueError('churned must contain only 0 and 1, without missing values.')
+        raise ValueError('Churn must contain only 0 and 1, without missing values.')
     return data
 
 @st.cache_resource
@@ -56,8 +55,7 @@ def train_models(data):
         results.append({'Model': name, 'ROC-AUC': roc_auc_score(y_test, score),
                         'PR-AUC': average_precision_score(y_test, score),
                         'Accuracy at 0.5': accuracy_score(y_test, score >= 0.5),
-                        'Brier score': brier_score_loss(y_test, score),
-                        'MAE': mean_absolute_error(y_test, score)})
+                        'Mean Absolute Error': mean_absolute_error(y_test, score)})
     return models, pd.DataFrame(results), features, nums, cats
 
 try:
@@ -67,7 +65,7 @@ except Exception as exc:
     st.error(f'Could not prepare app: {exc}')
     st.stop()
 
-st.info('Use the profile controls to estimate churn risk. Churn=1 means the customer churned in the dataset. The CSV does not specify a prediction horizon; verify timing before business use.')
+st.info('Use the profile controls to estimate churn risk. Churn=1 means the customer churned in the dataset.')
 
 with st.sidebar:
     st.header('Customer profile')
@@ -90,13 +88,11 @@ if predict:
     b.metric('Random forest churn score', f'{forest:.1%}')
     c.metric('Linear benchmark (clipped)', f'{np.clip(linear_raw, 0, 1):.1%}')
     if logistic >= threshold:
-        st.warning('Flag for manager review: investigate engagement and appropriate retention options. Do not automatically send an offer.')
+        st.warning('Flag for manager review: Investigate engagement and appropriate retention options. Do not automatically send an offer.')
     else:
         st.success('Below the selected review threshold; continue routine monitoring.')
     st.caption('The linear score is not a calibrated probability. A high churn score does not prove a proposed intervention will work.')
 
 st.subheader('Holdout evaluation')
-st.dataframe(report.style.format({'ROC-AUC':'{:.3f}', 'PR-AUC':'{:.3f}', 'Accuracy at 0.5':'{:.3f}', 'Brier score':'{:.3f}', 'MAE':'{:.3f}'}), hide_index=True)
-st.caption(f'{len(df):,} records; stratified 75/25 train-test split, random_state=42. Churn rate: {df.churned.mean():.1%}. Lower Brier and MAE are better; higher AUC metrics are better. Revalidate with a time-based split before operational deployment.')
-st.subheader('Managerial study')
-st.write('Invite consenting managers or experienced decision-makers to test example profiles. Ask whether the tool is useful, understandable and trustworthy; how they handle disagreement with experience; and what would increase trust. Record responses in a secure research-approved system, not in this public demo. No participant data are collected here.')
+st.dataframe(report.style.format({'ROC-AUC':'{:.3f}', 'PR-AUC':'{:.3f}', 'Accuracy at 0.5':'{:.3f}', 'MAE':'{:.3f}'}), hide_index=True)
+st.caption(f'{len(df):,} records; stratified 75/25 train-test split, random_state=42. Churn rate: {df.churned.mean():.1%}. Lower MAE is better; higher AUC metrics are better. Revalidate with a time-based split before operational deployment.')
